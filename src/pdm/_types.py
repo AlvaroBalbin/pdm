@@ -11,7 +11,8 @@ if TYPE_CHECKING:
 
 
 def _normalize_pattern(pattern: str) -> str:
-    return re.sub(r"[^A-Za-z0-9?*\[\]-]+", "-", pattern).lower()
+    # Preserve class negation while normalizing punctuation elsewhere.
+    return re.sub(r"(\[!)|[^A-Za-z0-9?*\[\]-]+", lambda m: m[1] or "-", pattern).lower()
 
 
 @dc.dataclass
